@@ -15,7 +15,7 @@
   # Run server (worker)
 
     for i in $(seq 1 3) ; do
-        docker run -d --name rrrspec-worker${i} --link rrrspec-redis:cache --volumes-from rrrspec-volume example/worker
+        docker run -d --name rrrspec-worker${i} --link rrrspec-mysql:db --link rrrspec-redis:cache --volumes-from rrrspec-volume example/worker
     done
 
   # Run server (web)
