@@ -1,5 +1,6 @@
 #!/bin/sh
 
+RUN_OPTION="--link rrrspec-redis:cache --link rrrspec-mysql:db --volumes-from rrrspec-volume"
 
   # Run storage containers
 
@@ -10,22 +11,22 @@
 
   # Run server (master)
 
-    docker run -d --name rrrspec-master --link rrrspec-redis:cache --link rrrspec-mysql:db example/server
+    docker run -d --name rrrspec-master ${RUN_OPTION} example/server
 
   # Run server (worker)
 
     for i in $(seq 1 3) ; do
-        docker run -d --name rrrspec-worker${i} --link rrrspec-mysql:db --link rrrspec-redis:cache --volumes-from rrrspec-volume example/worker
+        docker run -d --name rrrspec-worker${i} ${RUN_OPTION} example/worker
     done
 
   # Run server (web)
 
-    docker run -d --name rrrspec-web -p 9292:9292 --link rrrspec-mysql:db --link rrrspec-redis:cache example/web
+    docker run -d --name rrrspec-web -p 9292:9292 ${RUN_OPTION} example/web
 
 cat <<EOF
 1. Launch client container
 
-  host$ docker run -i -t --volumes-from rrrspec-volume --link rrrspec-redis:cache --link rrrspec-mysql:db example/client /bin/bash
+  host$ docker run -i -t ${RUN_OPTION} example/client /bin/bash
 
 2. Run test
 
