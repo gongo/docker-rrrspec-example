@@ -17,7 +17,7 @@ RRRSpec.configure(:client) do |conf|
   SETUP
 
   conf.slave_command = <<-SLAVE
-    RRRSPEC_CONFIG_FILES=/opt/lib/rrrspec-client-config.rb rrrspec slave
+    rrrspec slave
   SLAVE
 
   conf.taskset_class = 'myapplication'
