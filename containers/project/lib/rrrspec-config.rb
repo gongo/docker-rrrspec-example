@@ -1,6 +1,8 @@
+require 'uri'
 RRRSpec.configure do |conf|
   Time.zone_default = Time.find_zone('Asia/Tokyo')
-  conf.redis = { url: ENV['CACHE_PORT'] }
+  url = URI.split(ENV['CACHE_PORT'])
+  conf.redis = {host: url[2], port: url[3]}
 end
 
 RSYNC_REMOTE_PATH = '/opt/rsyncdir'
